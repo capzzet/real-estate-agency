@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Property;
+use App\Models\Image;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
@@ -25,6 +26,7 @@ class PropertySeeder extends Seeder
                 'area' => 65.5,
                 'deal_type' => 'sale',
                 'status' => 'active',
+                'image' => 'images/example-house.jpg',
             ],
             [
                 'title' => 'Офис в бизнес-центре',
@@ -36,6 +38,7 @@ class PropertySeeder extends Seeder
                 'area' => 120.0,
                 'deal_type' => 'rent',
                 'status' => 'active',
+                'image' => 'images/example-house2.jpg',
             ],
             [
                 'title' => 'Дом с садом в Оше',
@@ -47,6 +50,7 @@ class PropertySeeder extends Seeder
                 'area' => 180.0,
                 'deal_type' => 'sale',
                 'status' => 'active',
+                'image' => 'images/example-house3.jpg',
             ],
             [
                 'title' => 'Однокомнатная квартира посуточно',
@@ -58,6 +62,7 @@ class PropertySeeder extends Seeder
                 'area' => 40.0,
                 'deal_type' => 'rent',
                 'status' => 'active',
+                'image' => 'images/example-house.jpg',
             ],
             [
                 'title' => 'Земельный участок под застройку',
@@ -69,6 +74,7 @@ class PropertySeeder extends Seeder
                 'area' => 1000.0,
                 'deal_type' => 'sale',
                 'status' => 'active',
+                'image' => 'images/example-house2.jpg',
             ],
         ];
 
@@ -76,10 +82,19 @@ class PropertySeeder extends Seeder
             $agent = $agents[$index % $agents->count()];
             $category = $categories[$index % $categories->count()];
 
-            Property::create([
+            $image = $data['image'];
+            unset($data['image']);
+
+            $property = Property::create([
                 ...$data,
                 'user_id' => $agent->id,
                 'category_id' => $category->id,
+            ]);
+
+            Image::create([
+                'property_id' => $property->id,
+                'path' => $image,
+                'is_main' => true,
             ]);
         }
     }

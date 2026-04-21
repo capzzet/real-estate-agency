@@ -10,8 +10,19 @@ class PropertyController extends Controller
 {
     public function index(Request $request)
     {
+        $baseQuery = Property::query()->where('status', 'active');
         $query = Property::with(['category', 'mainImage', 'user'])
             ->where('status', 'active');
+
+        if ($request->filled('search')) {
+            $search = trim((string) $request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('address', 'like', "%{$search}%")
+                    ->orWhere('city', 'like', "%{$search}%");
+            });
+        }
 
         if ($request->filled('city')) {
             $query->where('city', $request->city);
@@ -33,10 +44,47 @@ class PropertyController extends Controller
             $query->where('price', '<=', $request->price_max);
         }
 
+        if ($request->filled('rooms')) {
+            if ((int) $request->rooms >= 4) {
+                $query->where('rooms', '>=', 4);
+            } else {
+                $query->where('rooms', (int) $request->rooms);
+            }
+        }
+
+        if ($request->filled('area_min')) {
+            $query->where('area', '>=', $request->area_min);
+        }
+
+        if ($request->filled('area_max')) {
+            $query->where('area', '<=', $request->area_max);
+        }
+
+        $sort = $request->get('sort', 'newest');
+        if ($sort === 'price_asc') {
+            $query->orderBy('price');
+        } elseif ($sort === 'price_desc') {
+            $query->orderByDesc('price');
+        } elseif ($sort === 'area_desc') {
+            $query->orderByDesc('area');
+        } else {
+            $query->latest();
+        }
+
         $properties = $query->paginate(12);
         $categories = Category::all();
+        $cities = (clone $baseQuery)
+            ->whereNotNull('city')
+            ->where('city', '!=', '')
+            ->select('city')
+            ->distinct()
+            ->orderBy('city')
+            ->pluck('city');
+        $priceBounds = (clone $baseQuery)
+            ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
+            ->first();
 
-        return view('properties.index', compact('properties', 'categories'));
+        return view('properties.index', compact('properties', 'categories', 'cities', 'priceBounds'));
     }
 
     public function show(Property $property)
