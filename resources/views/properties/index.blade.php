@@ -85,6 +85,23 @@
                         >
                         <input type="number" name="area_min" value="{{ request('area_min') }}" placeholder="Площадь от (м²)" class="filter-input">
                         <input type="number" name="area_max" value="{{ request('area_max') }}" placeholder="Площадь до (м²)" class="filter-input">
+                        <input type="number" name="rooms_min" value="{{ request('rooms_min') }}" placeholder="Комнат от" class="filter-input">
+                        <input type="number" name="rooms_max" value="{{ request('rooms_max') }}" placeholder="Комнат до" class="filter-input">
+                    </div>
+                    <div class="filters-row">
+                        <input type="text" name="agent_name" value="{{ request('agent_name') }}" placeholder="Имя агента" class="filter-input">
+                        <select name="posted_within" class="filter-select">
+                            <option value="">Дата публикации</option>
+                            <option value="1" {{ request('posted_within') == '1' ? 'selected' : '' }}>За сегодня</option>
+                            <option value="3" {{ request('posted_within') == '3' ? 'selected' : '' }}>За 3 дня</option>
+                            <option value="7" {{ request('posted_within') == '7' ? 'selected' : '' }}>За неделю</option>
+                            <option value="30" {{ request('posted_within') == '30' ? 'selected' : '' }}>За месяц</option>
+                            <option value="90" {{ request('posted_within') == '90' ? 'selected' : '' }}>За 3 месяца</option>
+                        </select>
+                        <select name="has_photo" class="filter-select">
+                            <option value="">Фото</option>
+                            <option value="1" {{ request('has_photo') == '1' ? 'selected' : '' }}>Только с фото</option>
+                        </select>
                     </div>
                 </div>
             </form>
@@ -127,6 +144,14 @@
                                     {{ $property->area }} м²
                                 </span>
                             @endif
+                            @if($property->area && $property->price)
+                                <span class="card-spec">
+                                    {{ number_format($property->price / max($property->area, 1), 0, '.', ' ') }} сом/м²
+                                </span>
+                            @endif
+                            <span class="card-spec">
+                                {{ $property->images_count }} фото
+                            </span>
                         </div>
 
                         <div class="card-footer">

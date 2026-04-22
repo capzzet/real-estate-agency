@@ -16,11 +16,13 @@
                 <div class="recent-searches">
                     <h3>Недавний поиск:</h3>
                     <ul>
-                        <li><a href="{{ route('properties.index', ['search' => 'Люкс']) }}">Люкс</a></li>
-                        <li><a href="{{ route('properties.index', ['search' => 'Апартаменты']) }}">Апартаменты</a></li>
-                        <li><a href="{{ route('properties.index', ['rooms' => 2]) }}">2 комнатная</a></li>
-                        <li><a href="{{ route('properties.index', ['search' => 'Элитка']) }}">Элитка</a></li>
-                        <li><a href="{{ route('properties.index', ['search' => 'веранда']) }}">Дом с верандой</a></li>
+                        @forelse(($recentSearches ?? []) as $searchItem)
+                            <li><a href="{{ $searchItem['url'] }}">{{ $searchItem['label'] }}</a></li>
+                        @empty
+                            <li><a href="{{ route('properties.index', ['search' => 'Центр Бишкек']) }}">Центр Бишкек</a></li>
+                            <li><a href="{{ route('properties.index', ['deal_type' => 'sale', 'rooms' => 2]) }}">Продажа · 2 комн.</a></li>
+                            <li><a href="{{ route('properties.index', ['deal_type' => 'rent']) }}">Аренда</a></li>
+                        @endforelse
                     </ul>
                 </div>
             </div>
@@ -77,7 +79,11 @@
             <h2>Собственникам</h2>
             <ul>
                 @auth
-                    <li><a href="{{ route('properties.create') }}">Добавить объект</a></li>
+                    @if(auth()->user()->isAdmin())
+                        <li><a href="{{ route('properties.create') }}">Добавить объект</a></li>
+                    @else
+                        <li><a href="{{ route('realty-hub.index') }}">Оставить заявку на сделку</a></li>
+                    @endif
                 @else
                     <li><a href="{{ route('login') }}">Продать квартиру</a></li>
                     <li><a href="{{ route('login') }}">Сдать квартиру</a></li>

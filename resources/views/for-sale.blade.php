@@ -45,15 +45,7 @@
             </article>
         </section>
 
-        <section class="for-sale-process">
-            <h2>Как мы работаем</h2>
-            <div class="for-sale-steps">
-                <div><span>01</span><p>Оцениваем объект и даем стратегию.</p></div>
-                <div><span>02</span><p>Готовим продающую презентацию.</p></div>
-                <div><span>03</span><p>Проводим показы и переговоры.</p></div>
-                <div><span>04</span><p>Закрываем сделку и передаем объект.</p></div>
-            </div>
-        </section>
+
 
         <section class="for-sale-form-section">
             <div class="for-sale-form-intro">

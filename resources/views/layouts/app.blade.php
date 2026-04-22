@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Estate-KG')</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -70,6 +71,29 @@
 
     <div class="page-content">
         @yield('content')
+    </div>
+
+    <div class="ai-assistant" id="aiAssistant">
+        <button type="button" class="ai-assistant-toggle" id="aiAssistantToggle" aria-expanded="false" aria-controls="aiAssistantPanel">
+            <span class="ai-assistant-toggle-icon"><i class="fas fa-robot"></i></span>
+            <span>AI Помощник</span>
+        </button>
+        <div class="ai-assistant-panel" id="aiAssistantPanel" hidden>
+            <div class="ai-assistant-header">
+                <h3>Estate AI</h3>
+                <div class="ai-assistant-header-actions">
+                    <button type="button" class="ai-assistant-reset" id="aiAssistantReset">Новый запрос</button>
+                    <button type="button" class="ai-assistant-close" id="aiAssistantClose" aria-label="Закрыть чат">&times;</button>
+                </div>
+            </div>
+            <div class="ai-assistant-messages" id="aiAssistantMessages">
+                <div class="ai-message ai-message-bot">Привет! Я помогу с выбором недвижимости, услугами и заявками. Напишите ваш вопрос.</div>
+            </div>
+            <form class="ai-assistant-form" id="aiAssistantForm">
+                <input type="text" id="aiAssistantInput" placeholder="Например: нужна 2-комнатная в центре" autocomplete="off" required>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
     </div>
 
     <footer class="footer">

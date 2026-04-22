@@ -11,6 +11,7 @@ class ContactMessage extends Model
         'email',
         'phone',
         'message',
+        'source',
         'is_processed',
     ];
 

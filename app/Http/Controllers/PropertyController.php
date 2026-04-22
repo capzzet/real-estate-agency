@@ -12,6 +12,7 @@ class PropertyController extends Controller
     {
         $baseQuery = Property::query()->where('status', 'active');
         $query = Property::with(['category', 'mainImage', 'user'])
+            ->withCount('images')
             ->where('status', 'active');
 
         if ($request->filled('search')) {
@@ -20,7 +21,14 @@ class PropertyController extends Controller
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
                     ->orWhere('address', 'like', "%{$search}%")
-                    ->orWhere('city', 'like', "%{$search}%");
+                    ->orWhere('city', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($categoryQuery) use ($search) {
+                        $categoryQuery->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -60,6 +68,32 @@ class PropertyController extends Controller
             $query->where('area', '<=', $request->area_max);
         }
 
+        if ($request->filled('rooms_min')) {
+            $query->where('rooms', '>=', (int) $request->rooms_min);
+        }
+
+        if ($request->filled('rooms_max')) {
+            $query->where('rooms', '<=', (int) $request->rooms_max);
+        }
+
+        if ($request->filled('agent_name')) {
+            $agentName = trim((string) $request->agent_name);
+            $query->whereHas('user', function ($userQuery) use ($agentName) {
+                $userQuery->where('name', 'like', "%{$agentName}%");
+            });
+        }
+
+        if ($request->filled('has_photo') && $request->has_photo === '1') {
+            $query->whereHas('images');
+        }
+
+        if ($request->filled('posted_within')) {
+            $days = (int) $request->posted_within;
+            if (in_array($days, [1, 3, 7, 30, 90], true)) {
+                $query->where('created_at', '>=', now()->subDays($days));
+            }
+        }
+
         $sort = $request->get('sort', 'newest');
         if ($sort === 'price_asc') {
             $query->orderBy('price');
@@ -83,6 +117,51 @@ class PropertyController extends Controller
         $priceBounds = (clone $baseQuery)
             ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
             ->first();
+
+        $historyFilters = collect($request->only([
+            'search',
+            'city',
+            'category_id',
+            'deal_type',
+            'rooms',
+            'price_min',
+            'price_max',
+            'area_min',
+            'area_max',
+            'rooms_min',
+            'rooms_max',
+            'agent_name',
+            'has_photo',
+            'posted_within',
+            'sort',
+        ]))
+            ->filter(fn ($value) => $value !== null && $value !== '');
+
+        if ($historyFilters->isNotEmpty()) {
+            $label = $request->filled('search')
+                ? trim((string) $request->search)
+                : collect([
+                    $request->deal_type === 'sale' ? 'Продажа' : ($request->deal_type === 'rent' ? 'Аренда' : null),
+                    $request->city,
+                    $request->filled('rooms') ? $request->rooms . ' комн.' : null,
+                ])->filter()->implode(' · ');
+
+            if ($label === '') {
+                $label = 'Подбор недвижимости';
+            }
+
+            $recentSearches = collect(session('recent_searches', []))
+                ->reject(fn ($item) => ($item['url'] ?? '') === route('properties.index', $historyFilters->toArray()))
+                ->prepend([
+                    'label' => mb_strimwidth($label, 0, 46, '...'),
+                    'url' => route('properties.index', $historyFilters->toArray()),
+                ])
+                ->take(6)
+                ->values()
+                ->all();
+
+            session(['recent_searches' => $recentSearches]);
+        }
 
         return view('properties.index', compact('properties', 'categories', 'cities', 'priceBounds'));
     }
