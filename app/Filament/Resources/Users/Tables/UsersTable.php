@@ -39,7 +39,6 @@ class UsersTable
                     ->searchable(),
             ])
             ->filters([
-                //
             ])
             ->recordActions([
                 ViewAction::make(),

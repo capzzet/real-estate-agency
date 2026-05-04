@@ -27,7 +27,6 @@ button {
     padding: 20px;
 }
 
-/* ===== HEADER ===== */
 .header {
     display: flex;
     justify-content: space-between;
@@ -103,7 +102,6 @@ button {
     background-color: #41864a;
 }
 
-/* ===== NAV ===== */
 .main-nav {
     margin-top: 20px;
     margin-bottom: 0;
@@ -134,7 +132,6 @@ button {
     background-color: #5EBC6A;
 }
 
-/* ===== HERO ===== */
 .info-block {
     margin: 50px 0;
     background: #152232;
@@ -240,7 +237,6 @@ button {
     user-select: none;
 }
 
-/* ===== DISCOVER ===== */
 .discover-section {
     display: flex;
     justify-content: space-between;
@@ -338,7 +334,6 @@ button {
     outline: none;
 }
 
-/* ===== CATEGORY BLOCKS ===== */
 .block-container {
     display: flex;
     justify-content: space-between;
@@ -387,7 +382,6 @@ button {
     font-size: 0.8em;
 }
 
-/* ===== SLIDER ===== */
 .slider-wrapper {
     margin: 60px 0;
 }
@@ -540,15 +534,13 @@ button {
     background-color: rgba(94, 188, 103, 0.7);
 }
 
-
-/* ===== PAGE CONTENT ===== */
 .page-content {
     padding-top: 14px;
 }
 .page-content > :first-child {
     margin-top: 0 !important;
 }
-/* ===== AGENTS ===== */
+
 .agents-section {
     background-color: #152232;
     padding: 20px;
@@ -568,7 +560,6 @@ button {
     color: #5ebc67;
 }
 
-/* ===== FOOTER ===== */
 .footer {
     background-color: #152232;
     color: white;
@@ -645,7 +636,6 @@ button {
     margin: 0;
 }
 
-/* ===== MODAL ===== */
 .modal {
     display: none;
     position: fixed;
@@ -727,7 +717,6 @@ button {
     margin-top: 20px;
 }
 
-/* ===== FORMS ===== */
 .form-group {
     margin-bottom: 15px;
 }
@@ -771,7 +760,6 @@ button[type="submit"]:hover {
     display: none;
 }
 
-/* ===== PROPERTY DETAIL PAGE ===== */
 .details-container {
     display: flex;
     justify-content: space-between;
@@ -834,7 +822,6 @@ button[type="submit"]:hover {
     color: white;
 }
 
-/* ===== CATALOG ===== */
 .catalog-page {
     margin: 0;
 }
@@ -952,7 +939,6 @@ button[type="submit"]:hover {
     display: flex;
 }
 
-/* Catalog grid */
 .catalog-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -970,7 +956,6 @@ button[type="submit"]:hover {
     transform: translateY(-4px);
 }
 
-/* Card image */
 .card-image {
     position: relative;
     height: 200px;
@@ -1017,7 +1002,6 @@ button[type="submit"]:hover {
     background-color: rgba(21, 34, 50, 0.8);
 }
 
-/* Card body */
 .card-body {
     padding: 20px;
     display: flex;
@@ -1116,7 +1100,6 @@ button[type="submit"]:hover {
     margin: 0;
 }
 
-/* Empty state */
 .catalog-empty {
     grid-column: 1 / -1;
     background-color: #152232;
@@ -1134,22 +1117,19 @@ button[type="submit"]:hover {
     text-decoration: underline;
 }
 
-/* Pagination */
 .catalog-pagination {
     display: flex;
     justify-content: center;
     margin-top: 30px;
 }
 
-
-/* ===== PAGE CONTENT ===== */
 .page-content {
     padding-top: 14px;
 }
 .page-content > :first-child {
     margin-top: 0 !important;
 }
-/* ===== AGENTS ===== */
+
 .agents-section {
     background-color: #152232;
     padding: 20px;
@@ -1169,7 +1149,6 @@ button[type="submit"]:hover {
     color: #5ebc67;
 }
 
-/* ===== FOOTER ===== */
 .footer {
     background-color: #152232;
     color: white;
@@ -1246,7 +1225,6 @@ button[type="submit"]:hover {
     margin: 0;
 }
 
-/* ===== MODAL ===== */
 .modal {
     display: none;
     position: fixed;
@@ -1328,7 +1306,6 @@ button[type="submit"]:hover {
     margin-top: 20px;
 }
 
-/* ===== FORMS ===== */
 .form-group {
     margin-bottom: 15px;
 }
@@ -1372,7 +1349,6 @@ button[type="submit"]:hover {
     display: none;
 }
 
-/* ===== PROPERTY DETAIL PAGE ===== */
 .details-container {
     display: flex;
     justify-content: space-between;
@@ -1435,7 +1411,6 @@ button[type="submit"]:hover {
     color: white;
 }
 
-/* ===== CATALOG ===== */
 .catalog-page {
     margin: 20px 0;
 }
@@ -1543,14 +1518,12 @@ button[type="submit"]:hover {
     display: flex;
 }
 
-/* Filter button override for catalog */
 .filter-button {
     width: auto;
     padding: 10px 35px;
     white-space: nowrap;
 }
 
-/* Catalog grid */
 .catalog-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1568,7 +1541,6 @@ button[type="submit"]:hover {
     transform: translateY(-4px);
 }
 
-/* Card image */
 .card-image {
     position: relative;
     height: 200px;
@@ -1614,7 +1586,6 @@ button[type="submit"]:hover {
     font-weight: 600;
 }
 
-/* Card body */
 .card-body {
     padding: 20px;
     display: flex;
@@ -1713,7 +1684,6 @@ button[type="submit"]:hover {
     margin: 0;
 }
 
-/* Empty state */
 .catalog-empty {
     grid-column: 1 / -1;
     background-color: #152232;
@@ -1731,13 +1701,12 @@ button[type="submit"]:hover {
     text-decoration: underline;
 }
 
-/* Pagination */
 .catalog-pagination {
     display: flex;
     justify-content: center;
     margin-top: 30px;
 }
-/* ===== CONTACTS ===== */
+
 .contact-container {
     display: flex;
     gap: 30px;
@@ -1815,7 +1784,6 @@ button[type="submit"]:hover {
     color: #41864a;
 }
 
-/* Contact right (форма) */
 .contact-right {
     flex: 1.4;
     background-color: #152232;
@@ -1910,7 +1878,6 @@ button[type="submit"]:hover {
     color: #5ebc67;
 }
 
-/* ===== REVIEWS ===== */
 .reviews-page {
     margin: 40px 0;
 }
@@ -2043,7 +2010,6 @@ button[type="submit"]:hover {
     }
 }
 
-/* ===== STATIC INFO PAGES ===== */
 .info-page {
     margin: 40px 0;
 }
@@ -2156,7 +2122,6 @@ button[type="submit"]:hover {
     }
 }
 
-/* ===== INFO PAGES VISUAL BOOST ===== */
 .info-hero-rich {
     display: flex;
     justify-content: space-between;
@@ -2351,7 +2316,6 @@ button[type="submit"]:hover {
     }
 }
 
-/* ===== ABOUT UNIQUE ===== */
 .about-unique-page {
     margin: 40px 0;
     display: flex;
@@ -2523,7 +2487,6 @@ button[type="submit"]:hover {
     }
 }
 
-/* ===== FOR SALE PAGE ===== */
 .for-sale-page {
     margin: 40px 0;
     display: flex;
@@ -2792,7 +2755,6 @@ button[type="submit"]:hover {
     }
 }
 
-/* ===== SEARCH + CATALOG TUNING ===== */
 .recent-searches ul {
     display: flex;
     flex-wrap: wrap;
@@ -2847,7 +2809,6 @@ button[type="submit"]:hover {
     }
 }
 
-/* ===== CATALOG BOOST ===== */
 .catalog-hero {
     background: linear-gradient(135deg, #152232 0%, #1d3148 55%, #254463 100%);
     border: 1px solid rgba(94, 188, 103, 0.35);
@@ -2953,7 +2914,6 @@ button[type="submit"]:hover {
     }
 }
 
-/* ===== PROPERTY SHOW ===== */
 .property-show-page {
     margin: 30px 0;
 }
@@ -3155,7 +3115,6 @@ button[type="submit"]:hover {
     }
 }
 
-/* ===== GLOBAL VISUAL REFINEMENTS ===== */
 body {
     min-height: 100vh;
     background: linear-gradient(180deg, #f8fbf8 0%, #ffffff 32%, #f5faf6 100%);
@@ -3176,7 +3135,6 @@ body {
     margin-top: auto;
 }
 
-/* ===== CONTACTS LINK COLOR FIX ===== */
 .contact-item a {
     color: #2f7d46;
     font-weight: 600;
@@ -3187,7 +3145,6 @@ body {
     color: #1f5e34;
 }
 
-/* ===== AI ASSISTANT WIDGET ===== */
 .ai-assistant {
     position: fixed;
     right: 24px;

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
-// Главная страница
 Route::get('/', function () {
     $properties = \App\Models\Property::with(['mainImage', 'user'])
         ->where('status', 'active')
@@ -228,7 +227,7 @@ Route::post('/ai-assistant/chat', function (Request $request) {
     }
 
     $city = null;
-    if (preg_match('/\bбишкек\b/u', $messageLower)) {
+    if (preg_match('/\bбишкек(а|е|у|ом)?\b/u', $messageLower) || preg_match('/\bбишке?к(а|е|у|ом)?\b/u', $messageLower)) {
         $city = 'Бишкек';
     } elseif (preg_match('/\bош\b/u', $messageLower)) {
         $city = 'Ош';
@@ -276,11 +275,9 @@ Route::post('/ai-assistant/chat', function (Request $request) {
     $isBuyerFlow = !$isOwnerFlow;
 
     if ($explicitOwnerAction) {
-        // New explicit owner request should create a fresh lead, not overwrite previous one.
         session()->forget('ai_owner_lead_id');
         session(['ai_flow_mode' => 'owner']);
     } elseif ($explicitBuyerAction) {
-        // Switching to buyer intent exits owner flow and detaches previous owner lead.
         session()->forget(['ai_owner_lead_id', 'ai_owner_action']);
         session(['ai_flow_mode' => 'buyer']);
     }
@@ -396,10 +393,11 @@ Route::post('/ai-assistant/chat', function (Request $request) {
     $history = session('ai_chat_history', []);
     $nowTs = now()->timestamp;
     $ttlSeconds = 1800;
-    $prevChatId = (string) ($historyMeta['chat_id'] ?? '');
+    $prevChatId = trim((string) ($historyMeta['chat_id'] ?? ''));
     $prevUpdatedAt = (int) ($historyMeta['updated_at'] ?? 0);
     $expired = $prevUpdatedAt > 0 && ($nowTs - $prevUpdatedAt) > $ttlSeconds;
-    $chatChanged = $chatId === '' || $prevChatId === '' || $chatId !== $prevChatId;
+    // Если chat_id не передается, считаем это тем же диалогом в рамках текущей сессии.
+    $chatChanged = $chatId !== '' && $prevChatId !== '' && $chatId !== $prevChatId;
     if ($expired || $chatChanged) {
         $history = [];
         session()->forget(['ai_owner_lead_id', 'ai_flow_mode', 'ai_owner_action']);
@@ -477,8 +475,8 @@ Route::post('/ai-assistant/chat', function (Request $request) {
     }
     if ($isOwnerFlow) {
         $missing = [];
-        if (!$city) {
-            $missing[] = 'город/район';
+        if (!$city && !$district) {
+            $missing[] = 'город или район';
         }
         if (!$phone) {
             $missing[] = 'контактный телефон';
@@ -488,7 +486,7 @@ Route::post('/ai-assistant/chat', function (Request $request) {
         }
 
         if (count($missing)) {
-            $finalMessage = "Спасибо, заявку принял. Опишите, пожалуйста, вашу недвижимость одним сообщением в свободной форме - я сам выделю важные детали и оформлю все корректно.";
+            $finalMessage = "Спасибо, заявку принял. Уточните, пожалуйста: " . implode(', ', $missing) . ".";
         } else {
             $finalMessage = "Отлично, все данные получил. В ближайшее время с вами свяжется менеджер.";
         }
@@ -498,7 +496,7 @@ Route::post('/ai-assistant/chat', function (Request $request) {
     session([
         'ai_chat_history' => array_slice($history, -12),
         'ai_chat_meta' => [
-            'chat_id' => $chatId,
+            'chat_id' => $chatId !== '' ? $chatId : $prevChatId,
             'updated_at' => $nowTs,
         ],
     ]);

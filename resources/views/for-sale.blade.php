@@ -45,8 +45,6 @@
             </article>
         </section>
 
-
-
         <section class="for-sale-form-section">
             <div class="for-sale-form-intro">
                 <h2>Оставить заявку</h2>

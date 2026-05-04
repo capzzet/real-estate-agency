@@ -20,7 +20,7 @@ function ge(t){this.content=t}ge.prototype={constructor:ge,find:function(t){for(
   white-space: break-spaces;
   -webkit-font-variant-ligatures: none;
   font-variant-ligatures: none;
-  font-feature-settings: "liga" 0; /* the above doesn't seem to work in Edge */
+  font-feature-settings: "liga" 0; 
 }
 
 .ProseMirror [contenteditable="false"] {
